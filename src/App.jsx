@@ -1,33 +1,50 @@
 import { useState } from "react"
+import ListItem from "./Components/ListItem";
 function App() {
-    const [itemChecked, setItemChecked] = useState({
-      first:false,
-      second:false,
-      third:false,
-    })
+    const [listItems, setListItems] = useState([
+      {
+        id: "1",
+        name: "Arroz",
+        quantity: "1",
+        unit: "kg",
+        checked: false,
+      },
+      {
+        id: "2",
+        name: "Frijol",
+        quantity: "1",
+        unit: "kg",
+        checked: false,
+      },
+      {
+        id: "3",
+        name: "Leche",
+        quantity: "1",
+        unit: "lts",
+        checked: false,
+      },
+      {
+        id: "4",
+        name: "Papel higienico",
+        quantity: "1",
+        unit: "pz",
+        checked: false,
+      },
+    ])
     const handleItemChecked = (e) => {
-      // if (itemChecked[e.target.name]) {
-      //   setItemChecked({
-      //     ...itemChecked,
-      //     [e.target.name]: false,
-      //   });
-      // } else {
-      //   setItemChecked({
-      //     ...itemChecked,
-      //     [e.target.name]: true,
-      //   });
-      // }
-    setItemChecked({
-      ...itemChecked,
-      [e.target.name]: !itemChecked[e.target.name]
-    })
+      const newList = listItems.map(item => {
+        if (e.target.name === item.id) {
+          item.checked = !item.checked;
+        }
+        return item;
+      })
+      setListItems(newList);
     }
   return (
   <div className="container text-center">
       <div className="row">
         <div className="col">
           <h1>Shopping List</h1>
-          <hr />
         </div>
         <div className="col text-end">
           <button type="button" className="btn btn-outline-primary">
@@ -35,79 +52,20 @@ function App() {
           </button>
         </div>
       </div>
-      <div className="row">
-        <div className="col">
-          <input
-          checked={itemChecked.first}
-          name="first"
-          onClick={(e) => handleItemChecked(e)}
-          type="checkbox"
-          />
-        </div>
-        <div className="col-2 text-start">
-          {
-            // itemChecked.first && <del>1 kg</del> 
+      <hr />
+        {
+          listItems.map((item) => (
+            <ListItem
+            id={item.id}
+            name={item.name}
+            quantity={item.quantity}
+            unit={item.unit}
+            checked={item.checked}
+            handleItemChecked={handleItemChecked}
+            />
+            ))
           }
-          {
-            // !itemChecked.first && "1 kg" 
-          }
-          {
-            itemChecked.first ? <del>1 kg</del> : "1 kg"
-          }
-        </div>
-        <div className="col-5 col-md-6 text-start"
-          style={{textDecoration: itemChecked.first && "line-through"}}
-          >
-            Tortillas
-          </div>
-        <div className="col-4 col-md-3 btn-group btn-group-sm" role="groups">
-          <button type="button" className="btn btn-outline-primary">
-            <i className="bi bi-pencil-square"></i>
-          </button>
-          <button type="button" className="btn btn-outline-primary">
-            <i className="bi bi-files"></i>
-          </button>
-          <button type="button" className="btn btn-outline-danger">
-            <i className="bi bi-trash2-fill"></i>
-          </button>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <input type="checkbox" />
-        </div>
-        <div className="col-2 text-start">1 Lt</div>
-        <div className="col-5 col-md-6 text-start">Aceite</div>
-        <div className="col-4 col-md-3 btn-group btn-group-sm" role="groups">
-          <button type="button" className="btn btn-outline-primary">
-            <i className="bi bi-pencil-square"></i>
-          </button>
-          <button type="button" className="btn btn-outline-primary">
-            <i className="bi bi-files"></i>
-          </button>
-          <button type="button" className="btn btn-outline-danger">
-            <i className="bi bi-trash2-fill"></i>
-          </button>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <input type="checkbox" />
-        </div>
-        <div className="col-2 text-start">3 Lt</div>
-        <div className="col-5 col-md-6 text-start">Coca Cola</div>
-        <div className="col-4 col-md-3 btn-group btn-group-sm" role="groups">
-          <button type="button" className="btn btn-outline-primary">
-            <i className="bi bi-pencil-square"></i>
-          </button>
-          <button type="button" className="btn btn-outline-primary">
-            <i className="bi bi-files"></i>
-          </button>
-          <button type="button" className="btn btn-outline-danger">
-            <i className="bi bi-trash2-fill"></i>
-          </button>
-        </div>
-      </div>
+      <hr />
     </div>
   )
 }
